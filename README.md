@@ -1,3 +1,3 @@
 # Carnival-Gift-Shop
-JavaScript Esentianls 
+JavaScript Esentianls \
 sync-input
