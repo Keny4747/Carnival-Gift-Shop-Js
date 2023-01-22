@@ -1,1 +1,2 @@
-# Carnival-Gift-Shop-Js
+# Carnival-Gift-Shop-
+JavaScript Esentianls 
