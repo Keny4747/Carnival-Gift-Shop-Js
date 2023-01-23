@@ -27,38 +27,74 @@ function showMenu() {
   return option;
 }
 function buyGift() {
-  console.log("Enter the number of the gift you want to get:");
-  let element = Number(input());
-  let result = gifts.find((item) => item.id === element);
+  if(gifts.length>0){
+    console.log("Enter the number of the gift you want to get:");
+    let element = Number(input());
+    if (element > 0 && element <= 10) {
+      let result = gifts.find((item) => item.id === element);
+      switch (result) {
+        case undefined:
+        case null:
+          console.log("Wow! There are no gifts to buy.");
+          break;
+        default:
+          if (result.price > totalTickets) {
+            console.log(
+              `You don't have enough tickets to buy this gift.\nTotal tickets: ${totalTickets}`
+            );
+          } else {
+            console.log(
+              `Here you go, one ${result.name}!\nTotal tickets: ${
+                totalTickets - result.price
+              }`
+            );
+            totalTickets -= result.price;
+            return result;
+          }
+      }
+    } else if(element >10 || element<1) {
+      console.log("There is no gift with that number!");
+    }else{
+      console.log("Please enter a valid number!");
+    }
 
-  console.log(`Here you go, one ${result.name}!\nTotal tickets: ${totalTickets - result.price}`);
-  totalTickets-= result.price;
-  return element;
+  }else{
+    console.log("Wow! There are no gifts to buy.");
+  }
+
 }
 function addTickets() {
   console.log("Enter the ticket amount: ");
   let element = Number(input());
-  console.log(`Total tickets: ${totalTickets + element}`);
-  
-  return element;
+  if (element >= 0 && element <= 1000) {
+    console.log(`Total tickets: ${totalTickets + element}`);
+
+    return element;
+  } else {
+    console.log("Please enter a valid number between 0 and 1000.");
+  }
 }
 function checkTickets() {
   console.log(`Total tickets: ${totalTickets}`);
 }
 function showGiftsUser() {
-
-
-  for(let i = 0; i<gifts.length; i++){
-    console.log(`${gifts[i].id}- ${gifts[i].name}, Cost: ${gifts[i].price} tickets`);
+  if (gifts.length > 0) {
+    for (let i = 0; i < gifts.length; i++) {
+      console.log(
+        `${gifts[i].id}- ${gifts[i].name}, Cost: ${gifts[i].price} tickets`
+      );
+    }
+  } else {
+    console.log("Wow! There are no gifts to buy.");
   }
- // gifts.forEach(showGifts);
- 
+
+  // gifts.forEach(showGifts);
 }
-function deleteItem(element){
-  gifts.splice((element-1),1);
+function deleteItem(element) {
+  let res = gifts.indexOf(element);
+  gifts.splice(res, 1);
 }
 function main() {
-  
   welcome();
   showGiftsUser();
   let option;
@@ -66,12 +102,13 @@ function main() {
     option = showMenu();
     switch (option) {
       case 1:
-         let element=buyGift();
-         deleteItem(element);
+        let element = buyGift();
+        if(element!=undefined ||element!=null ){
+        deleteItem(element);
+        };
         break;
       case 2:
-        
-        totalTickets+=addTickets();
+        totalTickets += addTickets();
         break;
       case 3:
         checkTickets();
@@ -83,6 +120,8 @@ function main() {
       case 5:
         console.log("Have a nice day!");
         break;
+      default:
+        console.log("Please enter a valid number!");
     }
   } while (option != 5);
 }
